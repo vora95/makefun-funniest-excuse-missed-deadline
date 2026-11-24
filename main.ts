@@ -30,3 +30,10 @@ if (LENGTH < 1 || LENGTH > 200) {
 
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", TEXT, "utf8");
+
+// Read-back verification: the file on disk must be exactly the entry.
+import { readFileSync } from "node:fs";
+const WRITTEN = readFileSync("/output/entry.txt", "utf8");
+if (WRITTEN !== TEXT) {
+  throw new Error("entry.txt content mismatch after write");
+}
